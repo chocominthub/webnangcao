@@ -2,7 +2,7 @@
  * TechStore - Trang hồ sơ người dùng
  */
 
-const API = 'http://localhost:5000/api';
+const API = '/api';
 
 function formatPrice(n) {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(n);

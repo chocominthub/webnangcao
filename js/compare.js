@@ -2,7 +2,7 @@
  * TechStore - Product Comparison Logic
  */
 
-const API = 'http://localhost:5000/api';
+const API = '/api';
 const COMPARE_KEY = 'techstore_compare';
 
 // Format currency

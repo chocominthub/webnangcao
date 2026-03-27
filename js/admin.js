@@ -2,7 +2,7 @@
  * TechStore - Admin Dashboard Logic
  */
 
-const API = 'http://localhost:5000/api';
+const API = '/api';
 let token = localStorage.getItem('techstore_token');
 let user = JSON.parse(localStorage.getItem('techstore_user') || 'null');
 

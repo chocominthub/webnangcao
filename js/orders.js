@@ -2,7 +2,7 @@
  * TechStore - Trang lịch sử đơn hàng
  */
 
-const API = 'http://localhost:5000/api';
+const API = '/api';
 
 const STATUS_MAP = {
     pending:   { label: 'Chờ xác nhận', cls: 'status-pending',   icon: '⏳' },

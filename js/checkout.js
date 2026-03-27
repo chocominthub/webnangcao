@@ -3,7 +3,7 @@
  * Kết nối API để lưu đơn hàng vào MongoDB
  */
 
-const API = 'http://localhost:5000/api';
+const API = '/api';
 
 function formatPrice(price) {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);

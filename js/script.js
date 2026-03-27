@@ -8,7 +8,7 @@ let PRODUCTS = [];
 
 async function fetchProductsFromAPI() {
     try {
-        const res = await fetch('http://localhost:5000/api/products');
+        const res = await fetch('/api/products');
         const data = await res.json();
         // Map backend product schema (_id) to frontend schema (id) to minimize changes
         PRODUCTS = data.map(p => ({
@@ -373,7 +373,7 @@ function initSort() {
 
 
 // ===== AUTH - API thật =====
-const API = 'http://localhost:5000/api';
+const API = '/api';
 
 function showAuthMessage(msg, isError = true) {
     const el = document.getElementById('authMessage');
