@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tin tức công nghệ - TechStore</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="news-page">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="container header-inner">
+                <a href="index.html" class="logo">
+                    <span class="logo-icon">⚡</span>
+                    <span class="logo-text">TechStore</span>
+                </a>
+                <div class="search-box news-search">
+                    <input type="text" id="newsSearchInput" placeholder="Tìm tin tức, bài viết..." aria-label="Tìm tin tức">
+                    <button type="button" id="newsSearchBtn" class="btn-search" aria-label="Tìm kiếm">🔍</button>
+                </div>
+                <div class="header-actions">
+                    <a href="index.html" class="btn btn-primary">Mua sắm</a>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-main">
+            <div class="container">
+                <ul class="nav-list">
+                    <li><a href="index.html" class="nav-link">Trang chủ</a></li>
+                    <li><a href="tin-tuc.html" class="nav-link active">Tin tức</a></li>
+                    <li><a href="index.html#categories" class="nav-link">Sản phẩm</a></li>
+                    <li><a href="index.html#contact" class="nav-link">Liên hệ</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="news-main">
+        <!-- Hero -->
+        <section class="news-hero">
+            <div class="container">
+                <h1>Tin tức công nghệ</h1>
+                <p>Cập nhật bài báo, đánh giá sản phẩm và xu hướng công nghệ mới nhất</p>
+            </div>
+        </section>
+
+        <!-- Filter -->
+        <section class="news-filter-section">
+            <div class="container">
+                <div class="news-filter" role="tablist">
+                    <button type="button" class="news-filter-btn active" data-category="all">Tất cả</button>
+                    <button type="button" class="news-filter-btn" data-category="linh-kien">Linh kiện</button>
+                    <button type="button" class="news-filter-btn" data-category="dien-thoai">Điện thoại</button>
+                    <button type="button" class="news-filter-btn" data-category="laptop">Laptop</button>
+                    <button type="button" class="news-filter-btn" data-category="industry">Công nghiệp</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- News grid -->
+        <section class="section news-section">
+            <div class="container">
+                <div class="news-grid" id="newsGrid">
+                    <!-- Bài viết render bởi js/news.js -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>TechStore</h4>
+                    <p>Cửa hàng công nghệ uy tín - Linh kiện, điện thoại, laptop chính hãng.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Liên kết</h4>
+                    <ul>
+                        <li><a href="index.html">Trang chủ</a></li>
+                        <li><a href="tin-tuc.html">Tin tức</a></li>
+                        <li><a href="index.html#products">Sản phẩm</a></li>
+                        <li><a href="index.html#contact">Liên hệ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 TechStore - Đồ án Lập trình Web nâng cao</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/news.js"></script>
+</body>
+</html>

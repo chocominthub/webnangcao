@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - TechStore</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --sidebar-w: 240px;
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --accent: #0ea5e9;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --bg: #f1f5f9;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --sidebar-bg: #1e1b4b;
+            --sidebar-hover: rgba(255,255,255,0.08);
+            --sidebar-active: rgba(99,102,241,0.25);
+            --radius: 12px;
+            --shadow: 0 1px 3px rgba(0,0,0,.1), 0 1px 2px rgba(0,0,0,.06);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,.1);
+        }
+        body { font-family: 'Be Vietnam Pro', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; }
+        a { text-decoration: none; color: inherit; }
+        button { font-family: inherit; cursor: pointer; border: none; background: none; }
+        input, select, textarea { font-family: inherit; }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: var(--sidebar-w);
+            background: var(--sidebar-bg);
+            position: fixed;
+            top: 0; left: 0;
+            height: 100vh;
+            display: flex; flex-direction: column;
+            z-index: 100;
+            overflow-y: auto;
+        }
+        .sidebar-logo {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,.08);
+            display: flex; align-items: center; gap: 0.6rem;
+        }
+        .sidebar-logo-icon { font-size: 1.6rem; }
+        .sidebar-logo-text { font-size: 1.1rem; font-weight: 700; color: white; }
+        .sidebar-logo-badge {
+            font-size: 0.65rem; background: var(--primary); color: white;
+            padding: 0.1rem 0.4rem; border-radius: 4px; margin-left: 0.25rem;
+        }
+
+        .sidebar-section { padding: 1rem 0.75rem 0.5rem; }
+        .sidebar-section-label {
+            font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1px;
+            color: rgba(255,255,255,.35); padding: 0 0.6rem; margin-bottom: 0.35rem;
+        }
+        .sidebar-nav-btn {
+            display: flex; align-items: center; gap: 0.75rem;
+            padding: 0.7rem 0.9rem;
+            border-radius: 8px;
+            color: rgba(255,255,255,.7);
+            font-size: 0.9rem; font-weight: 500;
+            transition: all .2s;
+            width: 100%; text-align: left;
+            margin-bottom: 0.15rem;
+        }
+        .sidebar-nav-btn:hover { background: var(--sidebar-hover); color: white; }
+        .sidebar-nav-btn.active { background: var(--sidebar-active); color: white; border-left: 3px solid var(--primary); padding-left: calc(0.9rem - 3px); }
+        .sidebar-nav-btn .nav-icon { font-size: 1.1rem; width: 22px; text-align: center; }
+        .sidebar-nav-btn .nav-badge {
+            margin-left: auto;
+            background: var(--danger); color: white;
+            font-size: 0.7rem; font-weight: 700;
+            padding: 0.1rem 0.45rem; border-radius: 999px;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            padding: 1rem;
+            border-top: 1px solid rgba(255,255,255,.08);
+        }
+        .sidebar-user {
+            display: flex; align-items: center; gap: 0.65rem;
+            padding: 0.6rem;
+        }
+        .sidebar-user-avatar {
+            width: 36px; height: 36px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem; color: white; font-weight: 700;
+            flex-shrink: 0;
+        }
+        .sidebar-user-info { flex: 1; min-width: 0; }
+        .sidebar-user-name { font-size: 0.88rem; font-weight: 600; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .sidebar-user-role { font-size: 0.72rem; color: rgba(255,255,255,.5); }
+        .sidebar-logout {
+            padding: 0.4rem 0.65rem;
+            background: rgba(239,68,68,.15);
+            color: #fca5a5;
+            border-radius: 6px; font-size: 0.8rem;
+            transition: background .2s;
+        }
+        .sidebar-logout:hover { background: rgba(239,68,68,.3); }
+
+        /* ===== MAIN CONTENT ===== */
+        .admin-main {
+            margin-left: var(--sidebar-w);
+            flex: 1;
+            display: flex; flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Topbar */
+        .admin-topbar {
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            padding: 0.9rem 1.5rem;
+            display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 50;
+            box-shadow: var(--shadow);
+        }
+        .topbar-title { font-size: 1.2rem; font-weight: 700; }
+        .topbar-actions { display: flex; gap: 0.75rem; align-items: center; }
+        .topbar-link {
+            font-size: 0.85rem; color: var(--text-muted);
+            display: flex; align-items: center; gap: 0.35rem;
+            padding: 0.4rem 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: all .2s;
+        }
+        .topbar-link:hover { border-color: var(--primary); color: var(--primary); }
+
+        /* Content area */
+        .admin-content { padding: 1.5rem; flex: 1; }
+
+        /* Panels */
+        .admin-panel { display: none; }
+        .admin-panel.active { display: block; }
+
+        /* ===== STAT CARDS ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .stat-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            box-shadow: var(--shadow);
+            display: flex; align-items: center; gap: 1rem;
+        }
+        .stat-icon-wrap {
+            width: 52px; height: 52px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; flex-shrink: 0;
+        }
+        .stat-icon-wrap.purple { background: #ede9fe; }
+        .stat-icon-wrap.blue   { background: #dbeafe; }
+        .stat-icon-wrap.green  { background: #dcfce7; }
+        .stat-icon-wrap.orange { background: #fef3c7; }
+        .stat-info {}
+        .stat-val { font-size: 1.5rem; font-weight: 700; }
+        .stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.1rem; }
+
+        /* ===== TABLES ===== */
+        .card {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        .card-header {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+        }
+        .card-header h3 { font-size: 1rem; font-weight: 700; }
+        .card-header-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+        th {
+            text-align: left; padding: 0.75rem 1rem;
+            background: var(--bg);
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;
+            color: var(--text-muted); font-weight: 600;
+            white-space: nowrap;
+        }
+        td { padding: 0.75rem 1rem; border-top: 1px solid var(--border); vertical-align: middle; }
+        tr:hover td { background: #f8fafc; }
+        .product-img-thumb { width: 40px; height: 40px; object-fit: cover; border-radius: 8px; background: var(--bg); }
+
+        /* Badges */
+        .badge {
+            display: inline-flex; align-items: center;
+            padding: 0.2rem 0.6rem;
+            border-radius: 999px; font-size: 0.75rem; font-weight: 600;
+            white-space: nowrap;
+        }
+        .badge-pending   { background: #fef9c3; color: #854d0e; }
+        .badge-confirmed { background: #dbeafe; color: #1e40af; }
+        .badge-shipping  { background: #ede9fe; color: #5b21b6; }
+        .badge-delivered { background: #dcfce7; color: #166534; }
+        .badge-cancelled { background: #fee2e2; color: #991b1b; }
+        .badge-admin     { background: #ede9fe; color: #5b21b6; }
+        .badge-user      { background: #e0f2fe; color: #0369a1; }
+        .badge-active    { background: #dcfce7; color: #166534; }
+        .badge-deactive  { background: #fee2e2; color: #991b1b; }
+
+        .btn-toggle-active { background: #fef3c7; color: #92400e; }
+        .btn-toggle-active:hover { background: #fde68a; }
+        .btn-activate { background: #dcfce7; color: #166534; }
+        .btn-activate:hover { background: #bbf7d0; }
+        .password-hash { font-family: monospace; font-size: 0.72rem; color: var(--text-muted); max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: help; }
+
+        /* Buttons */
+        .btn { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.55rem 1rem; border-radius: 8px; font-weight: 600; font-size: 0.88rem; transition: all .2s; cursor: pointer; border: none; font-family: inherit; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-success { background: var(--success); color: white; }
+        .btn-danger  { background: var(--danger); color: white; }
+        .btn-danger:hover { background: #dc2626; }
+        .btn-outline { border: 1.5px solid var(--border); color: var(--text-muted); background: white; }
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+        .btn-sm { padding: 0.3rem 0.65rem; font-size: 0.8rem; }
+        .btn-icon-sm { width: 32px; height: 32px; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; }
+        .btn-edit { background: #dbeafe; color: #1e40af; }
+        .btn-edit:hover { background: #bfdbfe; }
+        .btn-del { background: #fee2e2; color: #dc2626; }
+        .btn-del:hover { background: #fecaca; }
+
+        /* Filters toolbar */
+        .toolbar { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
+        .toolbar input, .toolbar select {
+            padding: 0.5rem 0.8rem;
+            border: 1.5px solid var(--border);
+            border-radius: 8px; font-size: 0.88rem;
+            background: white; outline: none;
+            transition: border-color .2s;
+        }
+        .toolbar input:focus, .toolbar select:focus { border-color: var(--primary); }
+        .toolbar input { min-width: 200px; }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,.5);
+            z-index: 1000; display: flex; align-items: center; justify-content: center;
+            padding: 1rem;
+        }
+        .modal-overlay.hidden { display: none; }
+        .modal-box {
+            background: white; border-radius: var(--radius);
+            width: 100%; max-width: 580px;
+            max-height: 90vh; overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,.2);
+            animation: modalIn .2s ease;
+        }
+        @keyframes modalIn { from { opacity:0; transform: scale(.94) translateY(-10px); } to { opacity:1; transform: none; } }
+        .modal-header {
+            padding: 1.1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .modal-header h3 { font-size: 1rem; font-weight: 700; }
+        .modal-close { width: 30px; height: 30px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: var(--text-muted); }
+        .modal-close:hover { background: var(--bg); color: var(--text); }
+        .modal-body { padding: 1.5rem; }
+        .modal-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--border); display: flex; gap: 0.75rem; justify-content: flex-end; }
+
+        /* Form */
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; font-size: 0.83rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .4px; margin-bottom: 0.35rem; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 0.65rem 0.9rem;
+            border: 1.5px solid var(--border); border-radius: 8px;
+            font-size: 0.92rem; transition: border-color .2s; background: #fafafa;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--primary); background: white; }
+        .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+
+        /* Alert */
+        .alert { padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.88rem; font-weight: 500; margin-bottom: 1rem; }
+        .alert-success { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+        .alert-error   { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+
+        /* Status select inline */
+        .status-select {
+            padding: 0.3rem 0.6rem;
+            border: 1.5px solid var(--border);
+            border-radius: 6px; font-size: 0.82rem;
+            background: white; cursor: pointer;
+        }
+
+        /* Empty state */
+        .empty-state { text-align: center; padding: 3rem; color: var(--text-muted); }
+        .empty-state .icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+
+        /* Recent orders mini-table in dashboard */
+        .recent-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: var(--text-muted); margin-bottom: 0.75rem; }
+
+        /* Loading */
+        .loading-row td { text-align: center; padding: 2rem; color: var(--text-muted); }
+    </style>
+</head>
+<body>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar">
+    <div class="sidebar-logo">
+        <span class="sidebar-logo-icon">⚡</span>
+        <span class="sidebar-logo-text">TechStore <span class="sidebar-logo-badge">ADMIN</span></span>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Tổng quan</div>
+        <button class="sidebar-nav-btn active" data-panel="dashboard">
+            <span class="nav-icon">📊</span> Dashboard
+        </button>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Quản lý</div>
+        <button class="sidebar-nav-btn" data-panel="products">
+            <span class="nav-icon">📦</span> Sản phẩm
+        </button>
+        <button class="sidebar-nav-btn" data-panel="orders">
+            <span class="nav-icon">🛒</span> Đơn hàng
+            <span class="nav-badge" id="pendingBadge">0</span>
+        </button>
+        <button class="sidebar-nav-btn" data-panel="users">
+            <span class="nav-icon">👥</span> Người dùng
+        </button>
+    </div>
+    <div class="sidebar-bottom">
+        <div class="sidebar-user">
+            <div class="sidebar-user-avatar" id="sidebarAvatar">A</div>
+            <div class="sidebar-user-info">
+                <div class="sidebar-user-name" id="sidebarName">Admin</div>
+                <div class="sidebar-user-role">Quản trị viên</div>
+            </div>
+        </div>
+        <div style="display:flex;gap:.5rem;margin-top:.5rem">
+            <a href="index.html" class="topbar-link" style="flex:1;justify-content:center;font-size:.82rem;color:rgba(255,255,255,.5);border-color:rgba(255,255,255,.1)">🌐 Website</a>
+            <button class="sidebar-logout" id="btnLogout">Đăng xuất</button>
+        </div>
+    </div>
+</aside>
+
+<!-- ===== MAIN ===== -->
+<main class="admin-main">
+    <div class="admin-topbar">
+        <div class="topbar-title" id="topbarTitle">📊 Dashboard</div>
+        <div class="topbar-actions">
+            <a href="index.html" class="topbar-link">🌐 Xem trang web</a>
+            <a href="orders.html" class="topbar-link">📦 Đơn hàng của tôi</a>
+        </div>
+    </div>
+
+    <div class="admin-content">
+
+        <!-- ===== PANEL: DASHBOARD ===== -->
+        <div class="admin-panel active" id="panel-dashboard">
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card"><div class="stat-icon-wrap purple">📦</div><div class="stat-info"><div class="stat-val" id="statProducts">—</div><div class="stat-label">Sản phẩm</div></div></div>
+                <div class="stat-card"><div class="stat-icon-wrap blue">🛒</div><div class="stat-info"><div class="stat-val" id="statOrders">—</div><div class="stat-label">Tổng đơn hàng</div></div></div>
+                <div class="stat-card"><div class="stat-icon-wrap green">💰</div><div class="stat-info"><div class="stat-val" id="statRevenue">—</div><div class="stat-label">Doanh thu</div></div></div>
+                <div class="stat-card"><div class="stat-icon-wrap orange">👥</div><div class="stat-info"><div class="stat-val" id="statUsers">—</div><div class="stat-label">Người dùng</div></div></div>
+            </div>
+            <div class="card">
+                <div class="card-header"><h3>🕐 Đơn hàng gần đây</h3><button class="btn btn-outline btn-sm" onclick="switchPanel('orders')">Xem tất cả</button></div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Mã đơn</th><th>Khách hàng</th><th>Sản phẩm</th><th>Tổng tiền</th><th>Trạng thái</th><th>Ngày đặt</th></tr></thead>
+                        <tbody id="recentOrdersBody"><tr class="loading-row"><td colspan="6">Đang tải...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PANEL: PRODUCTS ===== -->
+        <div class="admin-panel" id="panel-products">
+            <div class="card">
+                <div class="card-header">
+                    <h3>📦 Quản lý sản phẩm</h3>
+                    <div class="card-header-actions">
+                        <div class="toolbar">
+                            <input type="text" id="productSearch" placeholder="🔍 Tìm sản phẩm...">
+                            <select id="productCategoryFilter">
+                                <option value="all">Tất cả danh mục</option>
+                                <option value="linh-kien">Linh kiện PC</option>
+                                <option value="dien-thoai">Điện thoại</option>
+                                <option value="laptop">Laptop</option>
+                                <option value="phu-kien">Phụ kiện</option>
+                                <option value="man-hinh">Màn hình</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" id="btnAddProduct">+ Thêm sản phẩm</button>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Ảnh</th><th>Tên sản phẩm</th><th>Danh mục</th><th>Giá bán</th><th>Tồn kho</th><th>Đánh giá</th><th>Badge</th><th>Thao tác</th></tr></thead>
+                        <tbody id="productsBody"><tr class="loading-row"><td colspan="8">Đang tải...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PANEL: ORDERS ===== -->
+        <div class="admin-panel" id="panel-orders">
+            <div class="card">
+                <div class="card-header">
+                    <h3>🛒 Quản lý đơn hàng</h3>
+                    <div class="card-header-actions">
+                        <select id="orderStatusFilter" class="toolbar">
+                            <option value="all">Tất cả trạng thái</option>
+                            <option value="pending">⏳ Chờ xác nhận</option>
+                            <option value="confirmed">✅ Đã xác nhận</option>
+                            <option value="shipping">🚚 Đang giao</option>
+                            <option value="delivered">🎉 Đã giao</option>
+                            <option value="cancelled">❌ Đã hủy</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Mã đơn</th><th>Khách hàng</th><th>SĐT</th><th>Sản phẩm</th><th>Tổng tiền</th><th>Thanh toán</th><th>Trạng thái</th><th>Ngày đặt</th><th>Ẩn</th></tr></thead>
+                        <tbody id="ordersBody"><tr class="loading-row"><td colspan="9">Đang tải...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PANEL: USERS ===== -->
+        <div class="admin-panel" id="panel-users">
+            <div class="card">
+                <div class="card-header">
+                    <h3>👥 Quản lý người dùng</h3>
+                    <div class="card-header-actions">
+                        <input type="text" id="userSearch" placeholder="🔍 Tìm người dùng..." class="toolbar">
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>ID</th><th>Tên</th><th>Email</th><th>Password</th><th>SĐT</th><th>Vai trò</th><th>Trạng thái</th><th>Ngày tạo</th><th>Thao tác</th></tr></thead>
+                        <tbody id="usersBody"><tr class="loading-row"><td colspan="9">Đang tải...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /admin-content -->
+</main>
+
+<!-- ===== MODAL: THÊM/SỬA SẢN PHẨM ===== -->
+<div class="modal-overlay hidden" id="productModal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3 id="productModalTitle">Thêm sản phẩm</h3>
+            <button class="modal-close" id="closeProductModal">✕</button>
+        </div>
+        <div class="modal-body">
+            <div class="alert hidden" id="productModalAlert"></div>
+            <form id="productForm">
+                <input type="hidden" id="productId">
+                <div class="form-group">
+                    <label>Tên sản phẩm *</label>
+                    <input type="text" id="pName" placeholder="Ví dụ: CPU Intel Core i5-13400F" required>
+                </div>
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label>Danh mục *</label>
+                        <select id="pCategory" required>
+                            <option value="">-- Chọn danh mục --</option>
+                            <option value="linh-kien">Linh kiện PC</option>
+                            <option value="dien-thoai">Điện thoại</option>
+                            <option value="laptop">Laptop</option>
+                            <option value="phu-kien">Phụ kiện</option>
+                            <option value="man-hinh">Màn hình</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Badge (nhãn)</label>
+                        <select id="pBadge">
+                            <option value="">Không có</option>
+                            <option value="Hot">🔥 Hot</option>
+                            <option value="Mới">✨ Mới</option>
+                            <option value="Bán chạy">📈 Bán chạy</option>
+                            <option value="Cao cấp">💎 Cao cấp</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label>Giá bán (₫) *</label>
+                        <input type="number" id="pPrice" placeholder="4990000" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Giá gốc (₫)</label>
+                        <input type="number" id="pOriginalPrice" placeholder="5490000" min="0">
+                    </div>
+                </div>
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label>Tồn kho</label>
+                        <input type="number" id="pStock" placeholder="50" min="0" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Đánh giá (0-5)</label>
+                        <input type="number" id="pRating" placeholder="4.5" min="0" max="5" step="0.1" value="0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Hình ảnh sản phẩm</label>
+                    <input type="file" id="pImageFile" accept="image/*">
+                    <input type="hidden" id="pImage"> <!-- Lưu URL ảnh cũ -->
+                    <div style="margin-top: 0.5rem;">
+                        <img id="imagePreview" src="" alt="Preview" style="max-width: 150px; border-radius: 8px; display: none;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Mô tả sản phẩm</label>
+                    <textarea id="pDescription" placeholder="Mô tả chi tiết về sản phẩm..."></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" id="cancelProductModal">Hủy</button>
+            <button class="btn btn-primary" id="saveProductBtn">💾 Lưu sản phẩm</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== MODAL: XEM CHI TIẾT ĐƠN HÀNG ===== -->
+<div class="modal-overlay hidden" id="orderDetailModal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3>Chi tiết đơn hàng</h3>
+            <button class="modal-close" id="closeOrderModal">✕</button>
+        </div>
+        <div class="modal-body" id="orderDetailBody"></div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" id="cancelOrderModal">Đóng</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== MODAL: XÁC NHẬN XÓA ===== -->
+<div class="modal-overlay hidden" id="confirmModal">
+    <div class="modal-box" style="max-width:400px">
+        <div class="modal-header">
+            <h3>⚠️ Xác nhận xóa</h3>
+            <button class="modal-close" id="closeConfirmModal">✕</button>
+        </div>
+        <div class="modal-body">
+            <p id="confirmText" style="color:var(--text-muted)">Bạn có chắc muốn xóa mục này không?</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" id="cancelConfirm">Hủy</button>
+            <button class="btn btn-danger" id="okConfirm">🗑️ Xóa ngay</button>
+        </div>
+    </div>
+</div>
+
+<script src="js/admin.js"></script>
+</body>
+</html>

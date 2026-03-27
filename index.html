@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhóm 5 - Đồ án lập trình web nâng cao</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="container header-inner">
+                <a href="index.html" class="logo">
+                    <span class="logo-icon">⚡</span>
+                    <span class="logo-text">TechStore</span>
+                </a>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm, linh kiện..." aria-label="Tìm kiếm">
+                    <button type="button" id="searchBtn" class="btn-search" aria-label="Tìm kiếm">
+                        <span class="search-icon">🔍</span>
+                    </button>
+                </div>
+                <div class="header-actions">
+                    <button type="button" class="btn-icon" id="btnCart" aria-label="Giỏ hàng">
+                        <span class="cart-icon">🛒</span>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                    <!-- Chưa đăng nhập -->
+                    <a href="#login" class="btn-icon" id="btnLogin" aria-label="Đăng nhập">
+                        <span>👤</span>
+                    </a>
+                    <!-- Đã đăng nhập -->
+                    <div class="user-info hidden" id="userInfo">
+                        <span class="user-name" id="userName">👤</span>
+                        <a href="admin.html" class="btn btn-sm hidden" id="adminLink" style="background:#6366f1;color:white">⚙️ Admin</a>
+                        <a href="profile.html" class="btn btn-outline btn-sm">👤 Hồ sơ</a>
+                        <a href="orders.html" class="btn btn-outline btn-sm">📦 Đơn hàng</a>
+                        <button type="button" class="btn btn-outline btn-sm" id="btnLogout">Đăng xuất</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-main">
+            <div class="container">
+                <ul class="nav-list">
+                    <li><a href="#home" class="nav-link active">Trang chủ</a></li>
+                    <li><a href="tin-tuc.html" class="nav-link">Tin tức</a></li>
+                    <li><a href="#categories" class="nav-link" data-category="all">Tất cả</a></li>
+                    <li class="nav-item-has-dropdown">
+                        <a href="#categories" class="nav-link" data-category="linh-kien">Linh kiện PC <span class="nav-arrow">▼</span></a>
+                        <ul class="nav-dropdown">
+                            <li><a href="#categories" data-category="linh-kien" data-filter="CPU">CPU</a></li>
+                            <li><a href="#categories" data-category="linh-kien" data-filter="Mainboard">Mainboard</a></li>
+                            <li><a href="#categories" data-category="linh-kien" data-filter="VGA">VGA</a></li>
+                            <li><a href="#categories" data-category="linh-kien" data-filter="RAM">RAM</a></li>
+                            <li><a href="#categories" data-category="linh-kien" data-filter="SSD">SSD</a></li>
+                            <li><a href="#categories" data-category="linh-kien" data-filter="Nguồn">Nguồn (PSU)</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item-has-dropdown">
+                        <a href="#categories" class="nav-link" data-category="dien-thoai">Điện thoại <span class="nav-arrow">▼</span></a>
+                        <ul class="nav-dropdown">
+                            <li><a href="#categories" data-category="dien-thoai" data-filter="iPhone">iPhone</a></li>
+                            <li><a href="#categories" data-category="dien-thoai" data-filter="Samsung">Samsung</a></li>
+                            <li><a href="#categories" data-category="dien-thoai" data-filter="Xiaomi">Xiaomi</a></li>
+                            <li><a href="#categories" data-category="dien-thoai" data-filter="OPPO">OPPO</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item-has-dropdown">
+                        <a href="#categories" class="nav-link" data-category="laptop">Laptop <span class="nav-arrow">▼</span></a>
+                        <ul class="nav-dropdown">
+                            <li><a href="#categories" data-category="laptop" data-filter="Asus">Laptop Gaming (Asus ROG)</a></li>
+                            <li><a href="#categories" data-category="laptop" data-filter="Dell">Dell XPS</a></li>
+                            <li><a href="#categories" data-category="laptop" data-filter="ThinkPad">ThinkPad</a></li>
+                            <li><a href="#categories" data-category="laptop" data-filter="MacBook">MacBook</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item-has-dropdown">
+                        <a href="#categories" class="nav-link" data-category="phu-kien">Phụ kiện <span class="nav-arrow">▼</span></a>
+                        <ul class="nav-dropdown">
+                            <li><a href="#categories" data-category="phu-kien" data-filter="Bàn phím">Bàn phím</a></li>
+                            <li><a href="#categories" data-category="phu-kien" data-filter="Chuột">Chuột</a></li>
+                            <li><a href="#categories" data-category="phu-kien" data-filter="Tai nghe">Tai nghe</a></li>
+                            <li><a href="#categories" data-category="phu-kien" data-filter="Webcam">Webcam</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item-has-dropdown">
+                        <a href="#categories" class="nav-link" data-category="man-hinh">Màn hình <span class="nav-arrow">▼</span></a>
+                        <ul class="nav-dropdown">
+                            <li><a href="#categories" data-category="man-hinh" data-filter="LG">LG</a></li>
+                            <li><a href="#categories" data-category="man-hinh" data-filter="Samsung">Samsung</a></li>
+                            <li><a href="#categories" data-category="man-hinh" data-filter="Dell">Dell</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#contact" class="nav-link">Liên hệ</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Banner -->
+        <section class="hero" id="home">
+            <div class="hero-slide active">
+                <div class="container hero-content">
+                    <h1>Công nghệ cho mọi người</h1>
+                    <p>Linh kiện máy tính, điện thoại, laptop chính hãng - Giá tốt nhất thị trường</p>
+                    <a href="#products" class="btn btn-primary">Xem sản phẩm</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories -->
+        <section class="section categories-section" id="categories">
+            <div class="container">
+                <h2 class="section-title">Danh mục sản phẩm</h2>
+                <div class="categories-grid">
+                    <button type="button" class="category-card" data-category="linh-kien">
+                        <span class="category-icon">🖥️</span>
+                        <span>Linh kiện PC</span>
+                    </button>
+                    <button type="button" class="category-card" data-category="dien-thoai">
+                        <span class="category-icon">📱</span>
+                        <span>Điện thoại</span>
+                    </button>
+                    <button type="button" class="category-card" data-category="laptop">
+                        <span class="category-icon">💻</span>
+                        <span>Laptop</span>
+                    </button>
+                    <button type="button" class="category-card" data-category="phu-kien">
+                        <span class="category-icon">⌨️</span>
+                        <span>Phụ kiện</span>
+                    </button>
+                    <button type="button" class="category-card" data-category="man-hinh">
+                        <span class="category-icon">🖼️</span>
+                        <span>Màn hình</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products -->
+        <section class="section products-section" id="products">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Sản phẩm nổi bật</h2>
+                    <div class="sort-filter">
+                        <label for="sortSelect">Sắp xếp:</label>
+                        <select id="sortSelect" aria-label="Sắp xếp sản phẩm">
+                            <option value="default">Mặc định</option>
+                            <option value="price-asc">Giá thấp → cao</option>
+                            <option value="price-desc">Giá cao → thấp</option>
+                            <option value="name">Tên A-Z</option>
+                        </select>
+                    </div>
+                </div>
+                <p class="filter-info" id="filterInfo">Đang hiển thị tất cả sản phẩm</p>
+                <div class="products-grid" id="productsGrid">
+                    <!-- Sản phẩm được render bởi script.js -->
+                </div>
+                <div class="no-products hidden" id="noProducts">
+                    <p>Không tìm thấy sản phẩm phù hợp.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section class="section contact-section" id="contact">
+            <div class="container">
+                <h2 class="section-title">Liên hệ</h2>
+                <div class="contact-grid">
+                    <div class="contact-card">
+                        <span class="contact-icon">📍</span>
+                        <h3>Địa chỉ</h3>
+                        <p>123 Đường Công nghệ, Quận 1, TP.HCM</p>
+                    </div>
+                    <div class="contact-card">
+                        <span class="contact-icon">📞</span>
+                        <h3>Hotline</h3>
+                        <p><a href="tel:0938326176" style="color:inherit;text-decoration:none;font-weight:600">0938 326 176</a></p>
+                    </div>
+                    <div class="contact-card">
+                        <span class="contact-icon">✉️</span>
+                        <h3>Email</h3>
+                        <p>support@techstore.vn</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>TechStore</h4>
+                    <p>Cửa hàng công nghệ uy tín - Linh kiện, điện thoại, laptop chính hãng.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Liên kết</h4>
+                    <ul>
+                        <li><a href="#home">Trang chủ</a></li>
+                        <li><a href="#categories">Danh mục</a></li>
+                        <li><a href="#products">Sản phẩm</a></li>
+                        <li><a href="#contact">Liên hệ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Chính sách</h4>
+                    <ul>
+                        <li><a href="chinh-sach-bao-hanh.html">Bảo hành 12 tháng</a></li>
+                        <li><a href="#">Đổi trả</a></li>
+                        <li><a href="#">Thanh toán</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 TechStore - Đồ án Lập trình Web nâng cao</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <aside class="cart-sidebar" id="cartSidebar" aria-hidden="true">
+        <div class="cart-header">
+            <h3>Giỏ hàng</h3>
+            <button type="button" class="btn-close" id="closeCart" aria-label="Đóng giỏ hàng">&times;</button>
+        </div>
+        <div class="cart-body">
+            <div class="cart-empty" id="cartEmpty">
+                <p>Giỏ hàng trống. Hãy thêm sản phẩm!</p>
+            </div>
+            <ul class="cart-items" id="cartItems"></ul>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Tổng cộng:</span>
+                <strong id="cartTotal">0₫</strong>
+            </div>
+            <button type="button" class="btn btn-primary btn-block" id="checkoutBtn">Thanh toán</button>
+        </div>
+    </aside>
+    <div class="cart-overlay" id="cartOverlay" aria-hidden="true"></div>
+
+    <!-- Product Detail Modal -->
+    <div class="modal" id="productModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+        <div class="modal-backdrop" id="modalBackdrop"></div>
+        <div class="modal-content">
+            <button type="button" class="modal-close" id="closeModal" aria-label="Đóng">&times;</button>
+            <div class="modal-body" id="modalBody">
+                <!-- Nội dung chi tiết sản phẩm do script điền -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modal (Login / Register) -->
+    <div class="modal" id="loginModal" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="modal-backdrop" id="loginBackdrop"></div>
+        <div class="modal-content modal-sm">
+            <button type="button" class="modal-close" id="closeLogin" aria-label="Đóng">&times;</button>
+            <div class="modal-body">
+                <!-- Tabs -->
+                <div class="auth-tabs">
+                    <button type="button" class="auth-tab active" id="tabLogin">Đăng nhập</button>
+                    <button type="button" class="auth-tab" id="tabRegister">Đăng ký</button>
+                </div>
+
+                <!-- Thông báo lỗi/thành công -->
+                <div class="auth-message hidden" id="authMessage"></div>
+
+                <!-- Form Đăng nhập -->
+                <form id="loginForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="text" id="loginEmail" placeholder="Email hoặc 'admin'" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Mật khẩu</label>
+                        <input type="password" id="loginPassword" placeholder="Nhập mật khẩu" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" id="btnLoginSubmit">Đăng nhập</button>
+                </form>
+
+                <!-- Form Đăng ký -->
+                <form id="registerForm" class="auth-form hidden">
+                    <div class="form-group">
+                        <label for="regName">Họ và tên</label>
+                        <input type="text" id="regName" placeholder="Nguyễn Văn A" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regEmail">Email</label>
+                        <input type="email" id="regEmail" placeholder="email@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regPassword">Mật khẩu</label>
+                        <input type="password" id="regPassword" placeholder="Tối thiểu 8 ký tự" required minlength="8">
+                    </div>
+                    <div class="form-group">
+                        <label for="regPhone">Số điện thoại</label>
+                        <input type="tel" id="regPhone" placeholder="0900 123 456">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" id="btnRegisterSubmit">Tạo tài khoản</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="js/script.js"></script>
+    <script src="js/chatbot.js"></script>
+</body>
+</html>

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ sơ của tôi - TechStore</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .profile-hero {
+            background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+            color: white;
+            padding: 2.5rem 0;
+        }
+        .profile-hero-inner {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .profile-avatar-big {
+            width: 80px; height: 80px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.5rem;
+            border: 3px solid rgba(255,255,255,0.4);
+            flex-shrink: 0;
+        }
+        .profile-hero h1 { font-size: 1.75rem; margin-bottom: 0.25rem; }
+        .profile-hero p  { opacity: 0.85; font-size: 0.95rem; }
+        .profile-role-badge {
+            display: inline-block;
+            padding: 0.2rem 0.7rem;
+            background: rgba(255,255,255,0.2);
+            border-radius: 999px;
+            font-size: 0.8rem;
+            margin-top: 0.35rem;
+        }
+
+        .profile-main { padding: 2.5rem 0 4rem; }
+
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 1.5rem;
+            align-items: start;
+        }
+        @media (max-width: 768px) {
+            .profile-layout { grid-template-columns: 1fr; }
+        }
+
+        /* Sidebar */
+        .profile-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .profile-nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.85rem 1.1rem;
+            border-radius: var(--radius);
+            font-weight: 500;
+            color: var(--text-muted);
+            background: var(--card-bg);
+            border: 1.5px solid transparent;
+            transition: all 0.2s;
+            text-align: left;
+            width: 100%;
+        }
+        .profile-nav-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .profile-nav-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        .profile-nav-btn .nav-icon { font-size: 1.2rem; }
+
+        /* Panels */
+        .profile-panel { display: none; }
+        .profile-panel.active { display: block; }
+
+        .profile-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        .profile-card-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .profile-card-header h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        .profile-card-body { padding: 1.5rem; }
+
+        .profile-form-group {
+            margin-bottom: 1.25rem;
+        }
+        .profile-form-group label {
+            display: block;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.4rem;
+        }
+        .profile-form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: var(--bg);
+        }
+        .profile-form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(14,165,233,0.12);
+        }
+        .profile-form-group input:disabled {
+            background: var(--border);
+            color: var(--text-muted);
+            cursor: not-allowed;
+        }
+        .profile-form-group .field-hint {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+        .profile-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        @media (max-width: 500px) { .profile-form-grid { grid-template-columns: 1fr; } }
+
+        .profile-form-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding-top: 0.5rem;
+        }
+
+        .profile-message {
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        .profile-success { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+        .profile-error   { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+
+        /* Stats mini card */
+        .profile-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .profile-stat-mini {
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            padding: 1rem;
+            text-align: center;
+        }
+        .profile-stat-mini .val {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .profile-stat-mini .lbl {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 0.15rem;
+        }
+
+        /* Divider */
+        .profile-divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 1.5rem 0;
+        }
+
+        /* Danger zone */
+        .danger-zone {
+            border: 1.5px solid #fecaca;
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            background: #fff5f5;
+        }
+        .danger-zone h3 { color: #dc2626; margin-bottom: 0.4rem; font-size: 1rem; }
+        .danger-zone p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; }
+        .btn-danger {
+            background: #dc2626;
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .btn-danger:hover { background: #b91c1c; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="container header-inner">
+                <a href="index.html" class="logo">
+                    <span class="logo-icon">⚡</span>
+                    <span class="logo-text">TechStore</span>
+                </a>
+                <div class="header-actions">
+                    <a href="index.html" class="btn btn-outline btn-sm">← Trang chủ</a>
+                    <a href="orders.html" class="btn btn-outline btn-sm">📦 Đơn hàng</a>
+                    <div class="user-info" id="userInfo">
+                        <span class="user-name" id="userName">👤</span>
+                        <button type="button" class="btn btn-outline btn-sm" id="btnLogout">Đăng xuất</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <div class="profile-hero">
+        <div class="container profile-hero-inner">
+            <div class="profile-avatar-big" id="heroAvatar">👤</div>
+            <div>
+                <h1 id="heroName">Đang tải...</h1>
+                <p id="heroEmail">—</p>
+                <span class="profile-role-badge" id="heroRole">Thành viên</span>
+            </div>
+        </div>
+    </div>
+
+    <main class="profile-main">
+        <div class="container">
+            <div class="profile-layout">
+
+                <!-- Sidebar Nav -->
+                <nav class="profile-sidebar">
+                    <button class="profile-nav-btn active" data-panel="info">
+                        <span class="nav-icon">👤</span> Thông tin cá nhân
+                    </button>
+                    <button class="profile-nav-btn" data-panel="password">
+                        <span class="nav-icon">🔒</span> Đổi mật khẩu
+                    </button>
+                    <button class="profile-nav-btn" data-panel="settings">
+                        <span class="nav-icon">⚙️</span> Cài đặt tài khoản
+                    </button>
+                </nav>
+
+                <!-- Panels -->
+                <div class="profile-panels">
+
+                    <!-- Panel: Thông tin cá nhân -->
+                    <div class="profile-panel active" id="panel-info">
+                        <!-- Mini stats -->
+                        <div class="profile-card" style="margin-bottom:1.25rem">
+                            <div class="profile-card-body">
+                                <div class="profile-stats-grid" id="profileStats">
+                                    <div class="profile-stat-mini">
+                                        <div class="val" id="statOrders">—</div>
+                                        <div class="lbl">Tổng đơn hàng</div>
+                                    </div>
+                                    <div class="profile-stat-mini">
+                                        <div class="val" id="statSpend">—</div>
+                                        <div class="lbl">Tổng chi tiêu</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="profile-card">
+                            <div class="profile-card-header">
+                                <span>✏️</span>
+                                <h2>Chỉnh sửa thông tin</h2>
+                            </div>
+                            <div class="profile-card-body">
+                                <div class="profile-message profile-success hidden" id="infoMsg"></div>
+                                <form id="infoForm">
+                                    <div class="profile-form-grid">
+                                        <div class="profile-form-group">
+                                            <label>Họ và tên</label>
+                                            <input type="text" id="profileName" placeholder="Nguyễn Văn A" required>
+                                        </div>
+                                        <div class="profile-form-group">
+                                            <label>Email</label>
+                                            <input type="email" id="profileEmail" disabled>
+                                            <span class="field-hint">Email không thể thay đổi</span>
+                                        </div>
+                                    </div>
+                                    <div class="profile-form-grid">
+                                        <div class="profile-form-group">
+                                            <label>Số điện thoại</label>
+                                            <input type="tel" id="profilePhone" placeholder="0900 123 456">
+                                        </div>
+                                        <div class="profile-form-group" style="grid-column: span 1">
+                                            <label>Vai trò</label>
+                                            <input type="text" id="profileRole" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="profile-form-group">
+                                        <label>Địa chỉ giao hàng mặc định</label>
+                                        <input type="text" id="profileAddress" placeholder="Số nhà, đường, phường, quận, tỉnh/thành">
+                                    </div>
+                                    <div class="profile-form-actions">
+                                        <button type="submit" class="btn btn-primary" id="btnSaveInfo">💾 Lưu thay đổi</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel: Đổi mật khẩu -->
+                    <div class="profile-panel" id="panel-password">
+                        <div class="profile-card">
+                            <div class="profile-card-header">
+                                <span>🔒</span>
+                                <h2>Đổi mật khẩu</h2>
+                            </div>
+                            <div class="profile-card-body">
+                                <div class="profile-message hidden" id="pwMsg"></div>
+                                <form id="passwordForm">
+                                    <div class="profile-form-group">
+                                        <label>Mật khẩu hiện tại</label>
+                                        <input type="password" id="currentPassword" placeholder="Nhập mật khẩu hiện tại" required>
+                                    </div>
+                                    <div class="profile-form-group">
+                                        <label>Mật khẩu mới</label>
+                                        <input type="password" id="newPassword" placeholder="Tối thiểu 8 ký tự" required minlength="8">
+                                    </div>
+                                    <div class="profile-form-group">
+                                        <label>Xác nhận mật khẩu mới</label>
+                                        <input type="password" id="confirmPassword" placeholder="Nhập lại mật khẩu mới" required minlength="8">
+                                    </div>
+                                    <div class="profile-form-actions">
+                                        <button type="submit" class="btn btn-primary" id="btnSavePw">🔐 Cập nhật mật khẩu</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel: Cài đặt tài khoản -->
+                    <div class="profile-panel" id="panel-settings">
+                        <div class="profile-card">
+                            <div class="profile-card-header">
+                                <span>⚙️</span>
+                                <h2>Cài đặt tài khoản</h2>
+                            </div>
+                            <div class="profile-card-body">
+                                <p style="color:var(--text-muted);margin-bottom:1.25rem;font-size:0.9rem">
+                                    Quản lý các cài đặt và tùy chọn tài khoản của bạn.
+                                </p>
+
+                                <div style="display:flex;justify-content:space-between;align-items:center;padding:1rem;background:var(--bg);border-radius:var(--radius-sm);margin-bottom:0.75rem">
+                                    <div>
+                                        <strong style="font-size:0.9rem">📦 Lịch sử đơn hàng</strong>
+                                        <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.2rem">Xem tất cả đơn hàng đã đặt</p>
+                                    </div>
+                                    <a href="orders.html" class="btn btn-outline btn-sm">Xem ngay</a>
+                                </div>
+
+                                <div style="display:flex;justify-content:space-between;align-items:center;padding:1rem;background:var(--bg);border-radius:var(--radius-sm);margin-bottom:1.5rem">
+                                    <div>
+                                        <strong style="font-size:0.9rem">🛒 Giỏ hàng</strong>
+                                        <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.2rem">Quay lại mua sắm</p>
+                                    </div>
+                                    <a href="index.html#products" class="btn btn-outline btn-sm">Mua sắm</a>
+                                </div>
+
+                                <hr class="profile-divider">
+
+                                <div class="danger-zone">
+                                    <h3>⚠️ Đăng xuất khỏi thiết bị</h3>
+                                    <p>Đăng xuất tài khoản khỏi thiết bị này. Bạn sẽ cần đăng nhập lại để tiếp tục.</p>
+                                    <button type="button" class="btn-danger" id="btnLogoutDanger">Đăng xuất ngay</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 TechStore - Đồ án Lập trình Web nâng cao</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/profile.js"></script>
+    <script src="js/chatbot.js"></script>
+</body>
+</html>

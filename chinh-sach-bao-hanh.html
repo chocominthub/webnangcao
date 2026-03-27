@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chính sách bảo hành 12 tháng - TechStore</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .warranty-container {
+            padding: 3rem 0;
+            max-width: 900px;
+            margin: 0 auto;
+            color: var(--text);
+            line-height: 1.8;
+        }
+        .warranty-hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            text-align: center;
+            padding: 4rem 1rem;
+            border-radius: var(--radius);
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-lg);
+        }
+        .warranty-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .warranty-hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .warranty-section {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--primary);
+        }
+        .warranty-section h2 {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.75rem;
+        }
+        .warranty-section h2 .icon {
+            font-size: 1.75rem;
+        }
+        .warranty-section ul {
+            list-style: none; /* Changed to use custom icons */
+        }
+        .warranty-section ul li {
+            position: relative;
+            padding-left: 1.75rem;
+            margin-bottom: 1rem;
+        }
+        .warranty-section ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--success);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .warranty-section.exclusions ul li::before {
+            content: '✕';
+            color: var(--danger);
+        }
+        .warranty-section.exclusions {
+            border-left-color: var(--danger);
+        }
+        .highlight-box {
+            background: var(--bg);
+            padding: 1.5rem;
+            border-radius: var(--radius-sm);
+            margin-top: 1.5rem;
+            border: 1px dashed var(--text-muted);
+        }
+        .highlight-box strong {
+            color: var(--primary);
+        }
+        .contact-support {
+            display: flex;
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--radius);
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .contact-support-text h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .contact-support {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="container header-inner">
+                <a href="index.html" class="logo">
+                    <span class="logo-icon">⚡</span>
+                    <span class="logo-text">TechStore</span>
+                </a>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm, linh kiện..." aria-label="Tìm kiếm">
+                    <button type="button" id="searchBtn" class="btn-search" aria-label="Tìm kiếm">
+                        <span class="search-icon">🔍</span>
+                    </button>
+                </div>
+                <!-- ... header actions mirror index.html ... -->
+                <div class="header-actions">
+                    <button type="button" class="btn-icon" id="btnCart" aria-label="Giỏ hàng">
+                        <span class="cart-icon">🛒</span>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                    <!-- Chưa đăng nhập -->
+                    <a href="#login" class="btn-icon" id="btnLogin" aria-label="Đăng nhập">
+                        <span>👤</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-main">
+            <div class="container">
+                <ul class="nav-list">
+                    <li><a href="index.html" class="nav-link">Trang chủ</a></li>
+                    <li><a href="tin-tuc.html" class="nav-link">Tin tức</a></li>
+                    <li><a href="index.html#categories" class="nav-link" data-category="all">Tất cả</a></li>
+                    <li class="nav-item-has-dropdown">
+                        <a href="index.html#categories" class="nav-link" data-category="linh-kien">Linh kiện PC <span class="nav-arrow">▼</span></a>
+                    </li>
+                    <li class="nav-item-has-dropdown">
+                        <a href="index.html#categories" class="nav-link" data-category="dien-thoai">Điện thoại <span class="nav-arrow">▼</span></a>
+                    </li>
+                    <li class="nav-item-has-dropdown">
+                        <a href="index.html#categories" class="nav-link" data-category="laptop">Laptop <span class="nav-arrow">▼</span></a>
+                    </li>
+                    <li class="nav-item-has-dropdown">
+                        <a href="index.html#categories" class="nav-link" data-category="phu-kien">Phụ kiện <span class="nav-arrow">▼</span></a>
+                    </li>
+                    <li class="nav-item-has-dropdown">
+                        <a href="index.html#categories" class="nav-link" data-category="man-hinh">Màn hình <span class="nav-arrow">▼</span></a>
+                    </li>
+                    <li><a href="index.html#contact" class="nav-link">Liên hệ</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Warranty Content -->
+    <main class="container">
+        <div class="warranty-container">
+            <div class="warranty-hero">
+                <h1>Chính Sách Bảo Hành 12 Tháng</h1>
+                <p>An tâm mua sắm tại TechStore - Cam kết mang đến trải nghiệm hậu mãi chuẩn 5 sao dành cho mọi thiết bị điện tử của bạn.</p>
+            </div>
+
+            <section class="warranty-section">
+                <h2><span class="icon">🛡️</span> Điều Kiện Bảo Hành</h2>
+                <p>Tất cả sản phẩm do hệ thống TechStore bán ra đều được bảo hành miễn phí nếu đáp ứng các điều kiện sau đây:</p>
+                <ul>
+                    <li><strong>Sản phẩm còn trong thời hạn bảo hành:</strong> Chính sách 12 tháng được tính bắt đầu từ ngày khách hàng nhận được sản phẩm (Căn cứ trên hóa đơn hoặc hệ thống quản lý mã IMEI/Serial).</li>
+                    <li><strong>Tem bảo hành còn nguyên vẹn:</strong> Không có dấu hiệu cạo sửa, tẩy xóa hay bị rách mờ.</li>
+                    <li>Sản phẩm bị lỗi kỹ thuật do quá trình sản xuất hoặc lỗi linh kiện bên trong từ phía nhà cung cấp.</li>
+                    <li>Với các thiết bị điện thoại / iPhone: Máy không bị can thiệp phần cứng (Jailbreak, Root), tài khoản iCloud/Google Account đã được đăng xuất hoàn toàn.</li>
+                </ul>
+            </section>
+
+            <section class="warranty-section">
+                <h2><span class="icon">🔄</span> Chính Sách Đổi Trả (1 Đổi 1)</h2>
+                <p>Nhằm đảm bảo quyền lợi tối đa, TechStore hỗ trợ <strong>đổi mới sản phẩm</strong> nếu phát sinh lỗi nghiêm trọng:</p>
+                <ul>
+                    <li><strong>30 ngày đầu tiên:</strong> Hỗ trợ 1 Đổi 1 lấy máy mới nguyên seal nếu phát sinh các lỗi phần cứng từ nhà sản xuất (Ví dụ: Loa hỏng, lỗi màn hình xanh, camera không hoạt động, lỗi mainboard).</li>
+                    <li>Áp dụng cho mọi nhóm hàng điện thoại, Laptop cao cấp hoặc linh kiện PC (như CPU, Mainboard).</li>
+                    <li>Sản phẩm khi đổi trả phải còn đầy đủ hộp, phụ kiện, sách hướng dẫn sử dụng và không bị trầy xước cấn móp.</li>
+                </ul>
+            </section>
+
+            <section class="warranty-section exclusions">
+                <h2><span class="icon">⚠️</span> Các Trường Hợp Từ Chối Bảo Hành</h2>
+                <p>Trung tâm bảo hành của TechStore có quyền từ chối bảo hành miễn phí và chuyển sang hình thức <strong>sửa chữa tính phí ưu đãi</strong> đối với các trường hợp sau:</p>
+                <ul>
+                    <li>Sản phẩm đã hết hạn bảo hành.</li>
+                    <li>Tem bảo hành bị rách, vỡ, hoặc bị dán đè tem khác lên trên.</li>
+                    <li>Sản phẩm bị can thiệp, sửa chữa bởi các cá nhân hoặc trung tâm không được TechStore ủy quyền.</li>
+                    <li>Sản phẩm bị hư hỏng do tác động vật lý (Rơi rớt, va đập, nứt vỡ, móp méo) hoặc do yếu tố môi trường (Vào nước, ngấm chất lỏng, cháy nổ, chập điện do nguồn điện lưới không ổn định).</li>
+                    <li>Hư hỏng đối với các hao mòn thông thường (Ví dụ: chai pin theo thời gian dài sử dụng).</li>
+                    <li>Hư hỏng phần mềm do virus, cài đặt phần mềm không bản quyền hoặc tự ý cập nhật sai cách gây brick máy.</li>
+                </ul>
+            </section>
+
+            <section class="warranty-section">
+                <h2><span class="icon">⏳</span> Quy Trình & Thời Gian Xử Lý</h2>
+                <ul>
+                    <li><strong>Bước 1: Tếp nhận:</strong> Quý khách có thể mang máy trực tiếp đến cửa hàng TechStore hoặc gửi hỏa tốc qua đường bưu điện.</li>
+                    <li><strong>Bước 2: Kiểm tra lỗi:</strong> Kỹ thuật viên sẽ kiểm tra trực tiếp (15-30 phút) và báo cáo tình trạng máy cũng như phương án xử lý.</li>
+                    <li><strong>Bước 3: Xử lý bảo hành:</strong>
+                        <div class="highlight-box">
+                            Thời gian bảo hành thông thường kéo dài từ <strong>3 đến 7 ngày làm việc</strong>. Trong một số trường hợp linh kiện thay thế khan hiếm có thể lên đến 14 ngày (TechStore sẽ hỗ trợ máy mượn tạm thời cho khách trong lúc chờ đợi).
+                        </div>
+                    </li>
+                    <li><strong>Bước 4: Bàn giao:</strong> Sau khi thiết bị được sửa chữa/đổi mới hoàn tất, nhân viên sẽ liên hệ Quý khách đến test và nhận lại máy.</li>
+                </ul>
+            </section>
+
+            <div class="contact-support">
+                <div class="contact-support-text">
+                    <h3>Cần hỗ trợ bảo hành khẩn cấp?</h3>
+                    <p style="color:var(--text-muted); font-size: 0.95rem;">Đội ngũ CSKH và Kỹ Thuật Viên TechStore luôn sẵn sàng giải đáp.</p>
+                </div>
+                <div>
+                    <a href="index.html#contact" class="btn btn-primary">📞 Gọi 1900 xxxx ngay</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>TechStore</h4>
+                    <p>Cửa hàng công nghệ uy tín - Linh kiện, điện thoại, laptop chính hãng.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Liên kết</h4>
+                    <ul>
+                        <li><a href="index.html">Trang chủ</a></li>
+                        <li><a href="index.html#categories">Danh mục</a></li>
+                        <li><a href="index.html#products">Sản phẩm</a></li>
+                        <li><a href="index.html#contact">Liên hệ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Chính sách</h4>
+                    <ul>
+                        <li><a href="chinh-sach-bao-hanh.html">Bảo hành 12 tháng</a></li>
+                        <li><a href="#">Đổi trả</a></li>
+                        <li><a href="#">Thanh toán</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 TechStore - Đồ án Lập trình Web nâng cao</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Include essential scripts just for Cart/Auth if user drops things from nav -->
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch sử đơn hàng - TechStore</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== Orders Page Styles ===== */
+        .orders-page { background: var(--bg); min-height: 100vh; }
+
+        .orders-hero {
+            background: linear-gradient(135deg, var(--secondary) 0%, #334155 100%);
+            color: white;
+            padding: 2.5rem 0;
+        }
+        .orders-hero-inner {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .orders-hero-icon { font-size: 2.5rem; }
+        .orders-hero h1 { font-size: 1.75rem; margin-bottom: 0.25rem; }
+        .orders-hero p { opacity: 0.8; font-size: 0.95rem; }
+
+        .orders-main { padding: 2.5rem 0 4rem; }
+
+        /* Login required */
+        .orders-login-required {
+            text-align: center;
+            padding: 4rem 1rem;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+        .orders-login-required .big-icon { font-size: 4rem; margin-bottom: 1rem; }
+        .orders-login-required h2 { margin-bottom: 0.5rem; }
+        .orders-login-required p { color: var(--text-muted); margin-bottom: 1.5rem; }
+
+        /* Loading */
+        .orders-loading { text-align: center; padding: 4rem; color: var(--text-muted); }
+        .spinner {
+            width: 40px; height: 40px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Empty */
+        .orders-empty { text-align: center; padding: 4rem 1rem; }
+        .orders-empty .big-icon { font-size: 4rem; margin-bottom: 1rem; }
+
+        /* Stats Bar */
+        .orders-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+        .stat-icon { font-size: 1.75rem; margin-bottom: 0.35rem; }
+        .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+        .stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem; }
+
+        /* Order Card */
+        .orders-list { display: flex; flex-direction: column; gap: 1.25rem; }
+
+        .order-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: box-shadow 0.2s;
+        }
+        .order-card:hover { box-shadow: var(--shadow-lg); }
+
+        .order-card-header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg);
+        }
+        .order-id { font-size: 0.8rem; color: var(--text-muted); }
+        .order-id strong { color: var(--text); font-family: monospace; font-size: 0.9rem; }
+        .order-date { font-size: 0.85rem; color: var(--text-muted); }
+
+        .order-status-badge {
+            padding: 0.3rem 0.85rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .status-pending   { background: #fef9c3; color: #854d0e; }
+        .status-confirmed { background: #dbeafe; color: #1e40af; }
+        .status-shipping  { background: #ede9fe; color: #5b21b6; }
+        .status-delivered { background: #dcfce7; color: #166534; }
+        .status-cancelled { background: #fee2e2; color: #991b1b; }
+
+        .order-card-body { padding: 1.25rem; }
+
+        .order-items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-bottom: 1.25rem;
+        }
+        .order-item-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .order-item-thumb {
+            width: 48px; height: 48px;
+            border-radius: var(--radius-sm);
+            object-fit: cover;
+            background: var(--bg);
+            flex-shrink: 0;
+        }
+        .order-item-thumb-emoji {
+            width: 48px; height: 48px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            flex-shrink: 0;
+        }
+        .order-item-meta { flex: 1; min-width: 0; }
+        .order-item-title {
+            font-size: 0.9rem; font-weight: 600;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .order-item-unit { font-size: 0.8rem; color: var(--text-muted); }
+        .order-item-subtotal {
+            font-size: 0.9rem; font-weight: 700; color: var(--primary);
+            white-space: nowrap; flex-shrink: 0;
+        }
+
+        .order-card-footer {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            padding: 0.9rem 1.25rem;
+            border-top: 1px solid var(--border);
+            background: var(--bg);
+        }
+        .order-delivery-info { font-size: 0.85rem; color: var(--text-muted); }
+        .order-delivery-info span { display: block; }
+        .order-delivery-info strong { color: var(--text); }
+        .order-total-row {
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .order-total-label { font-size: 0.9rem; color: var(--text-muted); }
+        .order-total-amount { font-size: 1.2rem; font-weight: 700; color: var(--primary); }
+
+        /* Payment badge */
+        .payment-badge {
+            display: inline-flex; align-items: center; gap: 0.3rem;
+            font-size: 0.8rem; font-weight: 500; color: var(--text-muted);
+        }
+
+        @media (max-width: 600px) {
+            .order-card-header, .order-card-footer { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body class="orders-page">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="container header-inner">
+                <a href="index.html" class="logo">
+                    <span class="logo-icon">⚡</span>
+                    <span class="logo-text">TechStore</span>
+                </a>
+                <div class="header-actions">
+                    <a href="index.html" class="btn btn-outline btn-sm">← Trang chủ</a>
+                    <div class="user-info" id="userInfo">
+                        <span class="user-name" id="userName">👤</span>
+                        <button type="button" class="btn btn-outline btn-sm" id="btnLogout">Đăng xuất</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <div class="orders-hero">
+        <div class="container orders-hero-inner">
+            <span class="orders-hero-icon">📦</span>
+            <div>
+                <h1>Lịch sử đơn hàng</h1>
+                <p id="heroSubtitle">Theo dõi tất cả các đơn hàng của bạn</p>
+            </div>
+        </div>
+    </div>
+
+    <main class="orders-main">
+        <div class="container">
+
+            <!-- Chưa đăng nhập -->
+            <div id="loginRequired" class="orders-login-required hidden">
+                <div class="big-icon">🔐</div>
+                <h2>Vui lòng đăng nhập</h2>
+                <p>Bạn cần đăng nhập để xem lịch sử đơn hàng.</p>
+                <a href="index.html" class="btn btn-primary">Về trang chủ để đăng nhập</a>
+            </div>
+
+            <!-- Đang tải -->
+            <div id="ordersLoading" class="orders-loading">
+                <div class="spinner"></div>
+                <p>Đang tải đơn hàng...</p>
+            </div>
+
+            <!-- Nội dung chính -->
+            <div id="ordersContent" class="hidden">
+                <!-- Thống kê -->
+                <div class="orders-stats" id="ordersStats"></div>
+
+                <!-- Danh sách -->
+                <div class="orders-list" id="ordersList"></div>
+
+                <!-- Rỗng -->
+                <div class="orders-empty hidden" id="ordersEmpty">
+                    <div class="big-icon">🛍️</div>
+                    <h2>Chưa có đơn hàng nào</h2>
+                    <p style="color:var(--text-muted);margin-bottom:1.5rem">Hãy bắt đầu mua sắm ngay!</p>
+                    <a href="index.html#products" class="btn btn-primary">Khám phá sản phẩm</a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 TechStore - Đồ án Lập trình Web nâng cao</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/orders.js"></script>
+    <script src="js/chatbot.js"></script>
+</body>
+</html>

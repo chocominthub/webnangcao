@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết sản phẩm - TechStore</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="product-page">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="container header-inner">
+                <a href="index.html" class="logo">
+                    <span class="logo-icon">⚡</span>
+                    <span class="logo-text">TechStore</span>
+                </a>
+                <div class="header-actions">
+                    <a href="index.html" class="btn btn-primary">← Về trang chủ</a>
+                    <a href="index.html#products" class="btn-icon" aria-label="Giỏ hàng">🛒</a>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-main">
+            <div class="container">
+                <ul class="nav-list">
+                    <li><a href="index.html" class="nav-link">Trang chủ</a></li>
+                    <li><a href="tin-tuc.html" class="nav-link">Tin tức</a></li>
+                    <li><a href="index.html#products" class="nav-link">Sản phẩm</a></li>
+                    <li><a href="index.html#contact" class="nav-link">Liên hệ</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="product-main">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb" aria-label="Breadcrumb" id="breadcrumb">
+                <a href="index.html">Trang chủ</a>
+                <span class="breadcrumb-sep">/</span>
+                <a href="index.html#categories">Sản phẩm</a>
+                <span class="breadcrumb-sep">/</span>
+                <span id="breadcrumbProduct">Chi tiết</span>
+            </nav>
+
+            <!-- Not found -->
+            <div class="product-not-found hidden" id="productNotFound">
+                <p>Sản phẩm không tồn tại hoặc đã bị gỡ.</p>
+                <a href="index.html#products" class="btn btn-primary">Xem sản phẩm khác</a>
+            </div>
+
+            <!-- Product detail layout -->
+            <div class="product-detail-page" id="productDetailPage">
+                <div class="product-detail-layout">
+                    <!-- Gallery -->
+                    <div class="product-gallery">
+                        <div class="product-gallery-main">
+                            <img id="productMainImage" src="" alt="">
+                        </div>
+                        <div class="product-gallery-thumbs" id="productGalleryThumbs"></div>
+                    </div>
+
+                    <!-- Info & Buy -->
+                    <div class="product-info-block">
+                        <span class="product-detail-category" id="productCategory"></span>
+                        <h1 class="product-detail-title" id="productTitle"></h1>
+                        <div class="product-detail-price" id="productPrice"></div>
+                        <p class="product-detail-short" id="productShort"></p>
+
+                        <div class="product-detail-meta">
+                            <span class="product-meta-item">✅ Bảo hành chính hãng</span>
+                            <span class="product-meta-item">🚚 Giao hàng toàn quốc</span>
+                            <span class="product-meta-item">🔄 Đổi trả 7 ngày</span>
+                        </div>
+
+                        <div class="product-buy-box">
+                            <div class="product-qty-wrap">
+                                <label for="productQty">Số lượng:</label>
+                                <div class="product-qty-control">
+                                    <button type="button" id="qtyMinus" aria-label="Giảm">−</button>
+                                    <input type="number" id="productQty" value="1" min="1" max="99" aria-label="Số lượng">
+                                    <button type="button" id="qtyPlus" aria-label="Tăng">+</button>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-add-to-cart" id="btnAddToCart">
+                                Thêm vào giỏ hàng
+                            </button>
+                            <a href="checkout.html" class="btn btn-outline" id="btnBuyNow">Mua ngay</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs: Mô tả / Thông số / Đánh giá -->
+                <div class="product-tabs">
+                    <div class="product-tab-head">
+                        <button type="button" class="product-tab-btn active" data-tab="description">Mô tả sản phẩm</button>
+                        <button type="button" class="product-tab-btn" data-tab="specs">Thông số kỹ thuật</button>
+                        <button type="button" class="product-tab-btn" data-tab="reviews">Đánh giá</button>
+                    </div>
+                    <div class="product-tab-content active" id="tab-description">
+                        <div class="product-tab-body" id="productDescription"></div>
+                    </div>
+                    <div class="product-tab-content" id="tab-specs">
+                        <div class="product-specs-table-wrap">
+                            <table class="product-specs-table" id="productSpecsTable">
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="product-tab-content" id="tab-reviews">
+                        <div class="product-reviews-placeholder">
+                            <p>Chưa có đánh giá nào. Hãy là người đầu tiên đánh giá sản phẩm này!</p>
+                            <button type="button" class="btn btn-primary" disabled>Viết đánh giá (sắp ra mắt)</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related products -->
+                <section class="product-related">
+                    <h2 class="section-title">Sản phẩm liên quan</h2>
+                    <div class="products-grid" id="relatedProductsGrid"></div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 TechStore - Đồ án Lập trình Web nâng cao</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/product.js"></script>
+</body>
+</html>

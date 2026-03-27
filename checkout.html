@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán - TechStore</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="checkout-page">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="container header-inner">
+                <a href="index.html" class="logo">
+                    <span class="logo-icon">⚡</span>
+                    <span class="logo-text">TechStore</span>
+                </a>
+                <div class="checkout-page-title">Thanh toán đơn hàng</div>
+                <div class="header-actions">
+                    <a href="index.html" class="btn btn-primary">← Về trang chủ</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="checkout-main">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <a href="index.html">Trang chủ</a>
+                <span class="breadcrumb-sep">/</span>
+                <span>Thanh toán</span>
+            </nav>
+
+            <!-- Empty cart state -->
+            <div class="checkout-empty hidden" id="checkoutEmpty">
+                <div class="checkout-empty-card">
+                    <span class="checkout-empty-icon">🛒</span>
+                    <h2>Giỏ hàng trống</h2>
+                    <p>Bạn chưa có sản phẩm nào trong giỏ. Hãy quay lại và chọn sản phẩm nhé!</p>
+                    <a href="index.html#products" class="btn btn-primary">Mua sắm ngay</a>
+                </div>
+            </div>
+
+            <!-- Checkout content -->
+            <div class="checkout-content" id="checkoutContent">
+                <form class="checkout-layout" id="checkoutForm">
+                    <!-- Cột trái: Form -->
+                    <div class="checkout-form-col">
+                        <section class="checkout-block">
+                            <h2 class="checkout-block-title">
+                                <span class="checkout-block-icon">📍</span>
+                                Thông tin giao hàng
+                            </h2>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="fullName">Họ và tên <span class="required">*</span></label>
+                                    <input type="text" id="fullName" name="fullName" placeholder="Nguyễn Văn A" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Số điện thoại <span class="required">*</span></label>
+                                    <input type="tel" id="phone" name="phone" placeholder="0900 123 456" required>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label for="email">Email <span class="required">*</span></label>
+                                    <input type="email" id="email" name="email" placeholder="email@example.com" required>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label for="address">Địa chỉ giao hàng <span class="required">*</span></label>
+                                    <input type="text" id="address" name="address" placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành" required>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label for="note">Ghi chú đơn hàng</label>
+                                    <textarea id="note" name="note" rows="3" placeholder="Ghi chú về đơn hàng, ví dụ: giao giờ hành chính..."></textarea>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="checkout-block">
+                            <h2 class="checkout-block-title">
+                                <span class="checkout-block-icon">💳</span>
+                                Phương thức thanh toán
+                            </h2>
+                            <div class="payment-methods">
+                                <label class="payment-option">
+                                    <input type="radio" name="payment" value="cod" checked>
+                                    <span class="payment-option-box">
+                                        <span class="payment-option-icon">💵</span>
+                                        <span class="payment-option-text">Thanh toán khi nhận hàng (COD)</span>
+                                    </span>
+                                </label>
+                                <label class="payment-option">
+                                    <input type="radio" name="payment" value="transfer">
+                                    <span class="payment-option-box">
+                                        <span class="payment-option-icon">🏦</span>
+                                        <span class="payment-option-text">Chuyển khoản ngân hàng</span>
+                                    </span>
+                                </label>
+                                <label class="payment-option">
+                                    <input type="radio" name="payment" value="vnpay">
+                                    <span class="payment-option-box">
+                                        <span class="payment-option-icon">🔷</span>
+                                        <span class="payment-option-text">VNPay</span>
+                                    </span>
+                                </label>
+                                <label class="payment-option">
+                                    <input type="radio" name="payment" value="momo">
+                                    <span class="payment-option-box">
+                                        <span class="payment-option-icon">🟣</span>
+                                        <span class="payment-option-text">Ví Momo</span>
+                                    </span>
+                                </label>
+                            </div>
+                            <!-- Khung QR & thông tin chuyển khoản (sổ ra khi chọn Chuyển khoản hoặc Momo) -->
+                            <div class="payment-details-panel hidden" id="paymentDetailsPanel">
+                                <div class="payment-details-content">
+                                    <h4 class="payment-details-title">Thông tin chuyển khoản</h4>
+                                    <div class="payment-details-body">
+                                        <div class="payment-qr-wrap">
+                                            <img id="paymentQrImage" src="" alt="Mã QR chuyển khoản" class="payment-qr-image">
+                                        </div>
+                                        <div class="payment-transfer-info">
+                                            <p><strong>Ngân hàng:</strong> ACB</p>
+                                            <p><strong>Số tài khoản:</strong> 17543271</p>
+                                            <p><strong>Chủ tài khoản:</strong> VU HUY HOANG</p>
+                                            <p class="payment-transfer-note">Nội dung chuyển khoản: ghi mã đơn hàng sau khi đặt hàng.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Cột phải: Tóm tắt đơn hàng -->
+                    <aside class="checkout-summary-col">
+                        <div class="order-summary-card">
+                            <h3 class="order-summary-title">Đơn hàng của bạn</h3>
+                            <ul class="order-summary-list" id="orderSummaryList">
+                                <!-- Render bởi checkout.js -->
+                            </ul>
+                            <div class="order-summary-divider"></div>
+                            <div class="order-summary-row">
+                                <span>Tạm tính</span>
+                                <span id="orderSubtotal">0₫</span>
+                            </div>
+                            <div class="order-summary-row">
+                                <span>Phí vận chuyển</span>
+                                <span id="orderShipping">Miễn phí</span>
+                            </div>
+                            <div class="order-summary-divider"></div>
+                            <div class="order-summary-total">
+                                <span>Tổng cộng</span>
+                                <strong id="orderTotal">0₫</strong>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block btn-place-order" id="btnPlaceOrder">
+                                Xác nhận đặt hàng
+                            </button>
+                            <a href="index.html" class="link-back-cart">← Quay lại giỏ hàng</a>
+                        </div>
+                    </aside>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 TechStore - Đồ án Lập trình Web nâng cao</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal thành công -->
+    <div class="modal success-modal" id="successModal" role="dialog" aria-hidden="true">
+        <div class="modal-backdrop" id="successBackdrop"></div>
+        <div class="modal-content modal-sm">
+            <div class="modal-body text-center success-modal-body">
+                <span class="success-icon">✅</span>
+                <h2>Đặt hàng thành công!</h2>
+                <p>Cảm ơn bạn đã mua sắm tại TechStore. Chúng tôi sẽ liên hệ xác nhận đơn hàng trong thời gian sớm nhất.</p>
+                <p class="order-code">Mã đơn hàng: <strong id="orderCode"></strong></p>
+                <a href="index.html" class="btn btn-primary">Tiếp tục mua sắm</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/checkout.js"></script>
+    <script src="js/chatbot.js"></script>
+</body>
+</html>
